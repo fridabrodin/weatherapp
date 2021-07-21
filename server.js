@@ -35,8 +35,18 @@ app.get("/all", function (req, res) {
 
 // Post route that adds incoming data to projectData
 
-app.post("/all", function (req, res) {
-    projectData = req.body;
-  })
+const data = []
 
+app.post("/addMovie", addMovie);
 
+function addMovie (req, res) {
+console.log(req.body);
+    newEntry = {
+        city: req.body.city,
+        temp: req.body.temp,
+        content: req.body.feelings,
+    }
+
+    console.log(req.body);
+    data.push(req.body);
+  }
