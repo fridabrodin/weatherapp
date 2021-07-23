@@ -1,11 +1,9 @@
 // What we need to create an URL from the API
-
 let baseURL = "https://api.openweathermap.org/data/2.5/weather?zip=";
 let units = "&units=metric";
 let apiKey = "&appid=885d1ba30dcb12cef69c5df82996c911";
 
 // Our HTML elements
-
 const date = document.getElementById("date");
 const city = document.getElementById("city");
 const temp = document.getElementById("temp");
@@ -14,31 +12,25 @@ const button = document.getElementById("generate");
 
 // The date
 let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+let newDate = d.getMonth()+1+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 // Event listener to add function to existing HTML DOM element = the generate button
-
 button.addEventListener("click", performAction);
 
 /* Function called by event listener */
 
 function performAction(e){
-  //User input
-  let zip =  document.getElementById("zip").value;
+  const zip =  document.getElementById("zip").value;
   const feelings =  document.getElementById("feelings").value;
 
-  getAnimalDemo(baseURL,zip,units,apiKey)
+  getWeather(baseURL,zip,units,apiKey)
   .then (function (data){
-    console.log(data);
-    postData('/addMovie', {city:data["name"] + ", " + data["sys"]["country"], temp:data["main"]["temp"] + "°C", content:"Your feelings for today:  " + feelings})
+    postData('/addWeather', {date: newDate, city:data["name"] + ", " + data["sys"]["country"], temp:data["main"]["temp"] + "°C", content:"Your feelings for today:  " + feelings})
   })
-  .then(
-    updateUI()
-  )
 }
 /* Function to GET Web API Data*/
 
-const getAnimalDemo = async (baseURL,zip,units,apiKey)=>{
+const getWeather = async (baseURL,zip,units,apiKey)=>{
     const res = await fetch(baseURL+zip+units+apiKey)
     try {
       const data = await res.json();
@@ -51,7 +43,7 @@ const getAnimalDemo = async (baseURL,zip,units,apiKey)=>{
 /* Function to POST data */
 
 const postData = async ( url = '', data = {})=>{
-  console.log(data);
+  //console.log(data);
     const response = await fetch(url, {
     method: 'POST',
     credentials: 'same-origin',
@@ -60,11 +52,10 @@ const postData = async ( url = '', data = {})=>{
     },
     body: JSON.stringify(data),
   });
-
     try {
       const newData = await response.json();
       console.log(newData);
-      return newData;
+      return newData
     }catch(error) {
     console.log("error", error);
     }
@@ -72,7 +63,7 @@ const postData = async ( url = '', data = {})=>{
 
 /* Function to GET Project Data */
 
-const alllData = async (url='') =>{
+const allData = async (url='') =>{
   const request = await fetch(url);
   try {
   const allData = await request.json()
