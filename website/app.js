@@ -1,7 +1,7 @@
 // What we need to create an URL from the API
 let baseURL = "https://api.openweathermap.org/data/2.5/weather?zip=";
 let units = "&units=metric";
-let apiKey = "&appid=885d1ba30dcb12cef69c5df82996c911";
+const apiKey = "&appid=885d1ba30dcb12cef69c5df82996c911";
 
 // Our HTML elements
 const date = document.getElementById("date");
