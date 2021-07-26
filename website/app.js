@@ -26,6 +26,7 @@ function performAction(e){
   getWeather(baseURL,zip,units,apiKey)
   .then (function (data){
     postData('/addWeather', {date: newDate, city:data["name"] + ", " + data["sys"]["country"], temp:data["main"]["temp"] + "°C", content:"Your feelings for today:  " + feelings})
+ updateUI();
   })
 }
 /* Function to GET Web API Data*/
@@ -63,26 +64,29 @@ const postData = async ( url = '', data = {})=>{
 
 /* Function to GET Project Data */
 
-const allData = async (url='') =>{
-  const request = await fetch(url);
+const getData = async (url) => {
+  const res = await fetch(url);
   try {
-  const allData = await request.json()
+      let data = await res.json()
+      console.log(data)
+      return data;
   }
   catch(error) {
-    console.log("error", error);
+      console.log("error",error);
   }
-}
+};
 
 /* Function to update UI */
 
 const updateUI = async () => {
   const request = await fetch('/all');
   try{
-    const allData = await request.json();
-    date.innerHTML = newDate;
-    city.innerHTML = allData[0].city;
-    temp.innerHTML = allData[0].temp;
-    content.innerHTML = allData[0].content;;
+    let allData = await request.json();
+    let lastElement = allData[allData.length - 1];
+    date.innerHTML = lastElement.date;
+    city.innerHTML = lastElement.city;
+    temp.innerHTML = lastElement.temp;
+    content.innerHTML = lastElement.content;
 
   }catch(error){
     console.log("error", error);

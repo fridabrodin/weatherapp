@@ -29,13 +29,18 @@ function listening(){
 }
 
 // GET route that returns project data
-app.get("/all", function (req, res) {
+app.get("/allProjectData", function (req, res) {
     res.send(projectData);
 });
 
 // POST route that adds incoming data to projectData
 
 const data = [];
+
+app.get("/all", function (req, res) {
+    res.send(data);
+    console.log(data);
+});
 
 app.post("/addWeather", addWeather);
 
